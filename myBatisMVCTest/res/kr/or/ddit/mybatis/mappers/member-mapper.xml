@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 이 문서는 myBatis에서 처리할 SQL문을 작성하는 문서입니다... -->
+
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="member">
+	<insert id="insertMember" parameterType="memVo">
+		insert into mymember 
+			(mem_id, mem_pass, mem_name, mem_tel, mem_addr) 
+		values(#{mem_id}, #{mem_pass}, #{mem_name}, #{mem_tel}, #{mem_addr})
+	</insert>
+	
+	<select id="getMemberIdCount" parameterType="string" resultType="int">
+		select count(*) cnt from mymember where mem_id = #{mem_id}
+	</select>
+	
+	<delete id="deleteMember" parameterType="string">
+		delete from mymember where mem_id = #{mem_id}
+	</delete>
+	
+	<update id="updateMember" parameterType="memVo">
+		update mymember set mem_pass = #{mem_pass} , 
+			mem_name = #{mem_name}, mem_tel = #{mem_tel}, mem_addr = #{mem_addr} 
+		where mem_id = #{mem_id}
+	</update>
+	
+	<select id="getAllMember" resultType="memVo">
+		select * from mymember
+	</select>
+	
+	<!-- 
+		Map을 파라미터로 받아서 처리할 때의 변수명은 Map이 'key값'으로 한다.
+		
+		파라미터로 가져온 값을 '컬럼명', '테이블명' 등의 자리에 사용할 경우에는
+		달러($)기호를 사용해서 나타낸다.
+		예) ${변수명} 또는 ${key값}
+	-->
+	<!-- Map의 key값 정보 ==> 회원ID(MEMID), 수정할컬럼명(FIELD), 변경될데이터(DATA) -->
+	<update id="updateMember2" parameterType="map">
+		update mymember set ${FIELD} = #{DATA}
+		where mem_id = #{MEMID}
+	</update>
+	
+</mapper>	
+
+
+
+
+
+
+
